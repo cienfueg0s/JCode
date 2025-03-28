@@ -20,7 +20,8 @@
     "128": "icon-128.png"
   },
   "permissions": [
-    
+    "scripting",
+    "clipboard-write"
   ],
   "host_permissions": [
     "https://*.youtube.com/*"
