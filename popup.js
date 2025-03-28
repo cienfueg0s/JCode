@@ -77,7 +77,23 @@ async function fetchTranscript(videoId) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(captionText, 'text/xml');
     return Array.from(doc.getElementsByTagName('text'))
-      .map(t => t.textContent)
+      .map(t => {
+        // Decode HTML entities and clean up the text
+        let text = t.textContent
+          .replace(/&#39;/g, "'")
+          .replace(/&quot;/g, '"')
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/\[.*?\]/g, '') // Remove [Music], [Applause], etc.
+          .trim();
+        
+        // Capitalize sentences
+        text = text.charAt(0).toUpperCase() + text.slice(1);
+        
+        return text;
+      })
+      .filter(t => t) // Remove empty strings
       .join(' ');
   } catch (error) {
     console.error('Error fetching transcript:', error);
