@@ -1,5 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Popup JS loaded ✅");
+  
+  document.getElementById("copyButton").addEventListener("click", async () => {
+    const text = document.getElementById("transcriptOutput").textContent;
+    await navigator.clipboard.writeText(text);
+    const copyButton = document.getElementById("copyButton");
+    copyButton.textContent = "Copied!";
+    setTimeout(() => {
+      copyButton.textContent = "Copy Text";
+    }, 2000);
+  });
 
   document.getElementById("getTranscript").addEventListener("click", async () => {
     console.log("Button clicked!");
@@ -14,8 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const transcript = await fetchTranscript(videoId);
-    document.getElementById("transcriptOutput").textContent =
-      transcript || "No transcript found.";
+    const output = document.getElementById("transcriptOutput");
+    output.textContent = transcript || "No transcript found.";
+    
+    if (transcript) {
+      const wordCount = transcript.split(/\s+/).length;
+      document.getElementById("wordCount").textContent = `Words: ${wordCount}`;
+    }
+    
+    button.disabled = false;
+    button.textContent = "Get Transcript";
   });
 
   function getVideoId(url) {

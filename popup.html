@@ -45,6 +45,26 @@
       background-color: #4338ca;
     }
 
+    .secondary-button {
+      background-color: #6b7280;
+      width: auto;
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .secondary-button:hover {
+      background-color: #4b5563;
+    }
+
+    .transcript-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
     pre {
       background-color: white;
       padding: 10px;
@@ -62,7 +82,13 @@
   <h2>YouTube Transcript</h2>
   <input type="text" id="videoUrl" placeholder="Paste YouTube URL here" />
   <button id="getTranscript">Get Transcript</button>
-  <pre id="transcriptOutput">Transcript will appear here...</pre>
+  <div class="transcript-container">
+    <pre id="transcriptOutput">Transcript will appear here...</pre>
+    <div class="transcript-stats">
+      <span id="wordCount">Words: 0</span>
+      <button id="copyButton" class="secondary-button">Copy Text</button>
+    </div>
+  </div>
 
   <script src="popup.js"></script>
 </body>
