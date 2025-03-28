@@ -190,6 +190,46 @@
     .hidden {
       display: none;
     }
+
+    .search-container {
+      margin: 15px 0;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .highlight {
+      background-color: var(--accent);
+      color: var(--bg-secondary);
+      padding: 2px 0;
+      border-radius: 2px;
+    }
+
+    #transcriptOutput {
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .transcript-container {
+      margin-top: 20px;
+    }
+
+    .transcript-stats {
+      margin-top: 20px;
+      padding: 10px 5px;
+    }
   </style>
 </head>
 </head>
@@ -204,6 +244,9 @@
   <button id="getTranscript">Get Transcript</button>
   <div class="transcript-container">
     <div id="videoTitleDisplay" class="video-title"></div>
+    <div class="search-container">
+      <input type="text" id="searchTranscript" placeholder="Search transcript..." class="search-input">
+    </div>
     <div id="loadingIndicator" class="loading-indicator hidden">
       <i class="fas fa-circle-notch fa-spin"></i> Loading transcript...
     </div>

@@ -39,6 +39,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Get transcript
+  // Search functionality
+  const searchInput = document.getElementById('searchTranscript');
+  searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const text = transcriptOutput.textContent;
+    
+    if (!searchTerm) {
+      transcriptOutput.innerHTML = text;
+      return;
+    }
+
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    const highlightedText = text.replace(regex, '<span class="highlight">$1</span>');
+    transcriptOutput.innerHTML = highlightedText;
+  });
+
   document.getElementById('getTranscript').addEventListener('click', async () => {
     const url = document.getElementById('videoUrl').value;
     const videoId = getVideoId(url);
