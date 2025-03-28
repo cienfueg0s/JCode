@@ -4,19 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   
   // Set initial theme based on system preference
+  // Create toggle elements
+  themeToggle.innerHTML = '<div class="toggle-thumb"><i class="fas fa-sun"></i></div>';
+  
   if (prefersDark) {
     document.body.setAttribute('data-theme', 'dark');
-    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    themeToggle.querySelector('.toggle-thumb i').className = 'fas fa-moon';
   }
 
   themeToggle.addEventListener('click', () => {
     const currentTheme = document.body.getAttribute('data-theme');
+    const thumbIcon = themeToggle.querySelector('.toggle-thumb i');
+    
     if (currentTheme === 'dark') {
       document.body.removeAttribute('data-theme');
-      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      thumbIcon.className = 'fas fa-sun';
     } else {
       document.body.setAttribute('data-theme', 'dark');
-      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      thumbIcon.className = 'fas fa-moon';
     }
   });
   const transcriptOutput = document.getElementById('transcriptOutput');
