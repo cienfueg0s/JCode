@@ -1,4 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Theme toggle functionality
+  const themeToggle = document.getElementById('themeToggle');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  // Set initial theme based on system preference
+  if (prefersDark) {
+    document.body.setAttribute('data-theme', 'dark');
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.body.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+      document.body.removeAttribute('data-theme');
+      themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+  });
   const transcriptOutput = document.getElementById('transcriptOutput');
   const copyButton = document.getElementById('copyButton');
   const exportTxt = document.getElementById('exportTxt');
