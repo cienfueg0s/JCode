@@ -46,12 +46,19 @@ Key Components:
   - Missing transcripts
   - Failed API requests
 
-## Future Enhancements
-- Multiple language support
-- Timestamp preservation
-- Dark mode toggle
-- Export options (TXT, SRT)
-- Search functionality
+## Current Features
+- Basic transcript fetching
+- English language support (auto-fallback to other languages)
+- Copy to clipboard functionality
+- Word count tracking
+- Clean, modern UI
 
 ## Version History
-- 1.0: Initial release with basic transcript fetching
+- 1.0: Initial release with transcript fetching and copy functionality
+
+## Future Enhancements
+- Timestamp preservation
+- Dark mode toggle
+- Multiple language selector
+- Export options (TXT, SRT)
+- Search functionality
