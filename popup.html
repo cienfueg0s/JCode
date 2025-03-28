@@ -164,7 +164,34 @@
     ::-webkit-scrollbar-thumb:hover {
       background: var(--text-secondary);
     }
+
+    .video-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+      word-break: break-word;
+    }
+
+    .loading-indicator {
+      text-align: center;
+      padding: 20px;
+      color: var(--accent);
+    }
+
+    .error-message {
+      color: #ef4444;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.1);
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
+</head>
 </head>
 <body>
   <div class="header">
@@ -176,6 +203,11 @@
   <input type="text" id="videoUrl" placeholder="Paste YouTube URL here">
   <button id="getTranscript">Get Transcript</button>
   <div class="transcript-container">
+    <div id="videoTitleDisplay" class="video-title"></div>
+    <div id="loadingIndicator" class="loading-indicator hidden">
+      <i class="fas fa-circle-notch fa-spin"></i> Loading transcript...
+    </div>
+    <div id="errorMessage" class="error-message hidden"></div>
     <pre id="transcriptOutput">Transcript will appear here...</pre>
     <div class="transcript-stats">
       <span class="word-count" id="wordCount">Words: 0</span>

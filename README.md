@@ -6,9 +6,12 @@ A Chrome extension that allows you to instantly fetch transcripts from YouTube v
 - Simple, clean interface
 - Auto-language detection
 - Copy to clipboard with one click
-- Export to TXT format
+- Export to TXT format with video title
 - Word count tracking
 - Modern UI with icons
+- Video title display
+- Loading indicators
+- Error handling and user feedback
 
 ## How to Use
 1. Click the JTube extension icon

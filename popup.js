@@ -43,16 +43,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = document.getElementById('videoUrl').value;
     const videoId = getVideoId(url);
     if (!videoId) {
-      alert('Invalid YouTube URL');
+      showError('Invalid YouTube URL');
       return;
     }
 
-    const transcript = await fetchTranscript(videoId);
-    transcriptOutput.textContent = transcript || 'No transcript found';
+    showLoading(true);
+    hideError();
+    
+    try {
+      const transcript = await fetchTranscript(videoId);
+      if (!transcript) {
+        showError('No transcript found for this video');
+        return;
+      }
 
-    const wordCount = (transcript || '').split(/\s+/).length;
-    document.getElementById('wordCount').textContent = `Words: ${wordCount}`;
+      document.getElementById('videoTitleDisplay').textContent = window.videoTitle || 'Untitled Video';
+      transcriptOutput.textContent = transcript;
+      const wordCount = transcript.split(/\s+/).length;
+      document.getElementById('wordCount').textContent = `Words: ${wordCount}`;
+    } catch (error) {
+      showError('Failed to fetch transcript. Please try again.');
+    } finally {
+      showLoading(false);
+    }
   });
+
+  function showError(message) {
+    const errorElement = document.getElementById('errorMessage');
+    errorElement.textContent = message;
+    errorElement.classList.remove('hidden');
+    transcriptOutput.textContent = '';
+    document.getElementById('videoTitleDisplay').textContent = '';
+    document.getElementById('wordCount').textContent = 'Words: 0';
+  }
+
+  function hideError() {
+    document.getElementById('errorMessage').classList.add('hidden');
+  }
+
+  function showLoading(show) {
+    document.getElementById('loadingIndicator').classList.toggle('hidden', !show);
+    document.getElementById('getTranscript').disabled = show;
+  }
 });
 
 function getVideoId(url) {
