@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Export functionality
   exportTxt.addEventListener('click', () => {
-    downloadFile(transcriptOutput.textContent, 'transcript.txt', 'text/plain');
+    const fileName = `${window.videoTitle || 'transcript'}.txt`;
+    downloadFile(transcriptOutput.textContent, fileName, 'text/plain');
   });
 
   // Get transcript
@@ -67,6 +68,8 @@ async function fetchTranscript(videoId) {
     if (!match) return null;
 
     const data = JSON.parse(match[1]);
+    const videoTitle = data?.videoDetails?.title || 'transcript';
+    window.videoTitle = videoTitle.replace(/[^\w\s-]/g, '').trim(); // Store sanitized title globally
     const captions = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
     if (!captions?.length) return null;
 
