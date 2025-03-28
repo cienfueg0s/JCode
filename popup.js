@@ -56,8 +56,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const regex = new RegExp(`(${searchTerm})`, 'gi');
+    const matches = text.match(regex);
+    const matchCount = matches ? matches.length : 0;
     const highlightedText = text.replace(regex, '<span class="highlight">$1</span>');
     transcriptOutput.innerHTML = highlightedText;
+    
+    // Update search counter
+    const counter = searchInput.parentElement.querySelector('.search-counter') || 
+                   (() => {
+                     const el = document.createElement('div');
+                     el.className = 'search-counter';
+                     searchInput.parentElement.appendChild(el);
+                     return el;
+                   })();
+    
+    counter.textContent = matchCount ? `${matchCount} matches` : '';
   });
 
   document.getElementById('getTranscript').addEventListener('click', async () => {
