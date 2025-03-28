@@ -1,46 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const darkModeToggle = document.getElementById('darkModeToggle');
-  const searchInput = document.getElementById('searchInput');
   const transcriptOutput = document.getElementById('transcriptOutput');
   const copyButton = document.getElementById('copyButton');
   const exportTxt = document.getElementById('exportTxt');
-  const exportSrt = document.getElementById('exportSrt');
-  const languageSelect = document.getElementById('languageSelect');
-
-  // Dark mode toggle
-  darkModeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
-  });
-
-  // Search functionality
-  searchInput.addEventListener('input', () => {
-    const searchText = searchInput.value.toLowerCase();
-    const text = transcriptOutput.textContent;
-    if (searchText) {
-      const highlighted = text.replace(new RegExp(searchText, 'gi'), 
-        match => `<mark>${match}</mark>`);
-      transcriptOutput.innerHTML = highlighted;
-    } else {
-      transcriptOutput.textContent = text;
-    }
-  });
 
   // Copy functionality
   copyButton.addEventListener('click', async () => {
     await navigator.clipboard.writeText(transcriptOutput.textContent);
-    copyButton.textContent = 'Copied!';
-    setTimeout(() => copyButton.textContent = 'Copy', 2000);
+    copyButton.innerHTML = '<i class="fas fa-check"></i>';
+    setTimeout(() => {
+      copyButton.innerHTML = '<i class="fas fa-copy"></i>';
+    }, 2000);
   });
 
   // Export functionality
   exportTxt.addEventListener('click', () => {
     downloadFile(transcriptOutput.textContent, 'transcript.txt', 'text/plain');
-  });
-
-  exportSrt.addEventListener('click', () => {
-    const srtContent = convertToSRT(transcriptOutput.textContent);
-    downloadFile(srtContent, 'transcript.srt', 'text/plain');
   });
 
   // Get transcript
@@ -52,8 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const language = languageSelect.value;
-    const transcript = await fetchTranscript(videoId, language);
+    const transcript = await fetchTranscript(videoId);
     transcriptOutput.textContent = transcript || 'No transcript found';
 
     const wordCount = (transcript || '').split(/\s+/).length;
@@ -66,7 +39,7 @@ function getVideoId(url) {
   return match ? match[1] : null;
 }
 
-async function fetchTranscript(videoId, language) {
+async function fetchTranscript(videoId) {
   try {
     const response = await fetch(`https://www.youtube.com/watch?v=${videoId}`);
     const html = await response.text();
@@ -77,7 +50,7 @@ async function fetchTranscript(videoId, language) {
     const captions = data?.captions?.playerCaptionsTracklistRenderer?.captionTracks;
     if (!captions?.length) return null;
 
-    const track = captions.find(t => t.languageCode === language) || captions[0];
+    const track = captions[0]; 
     const captionResponse = await fetch(track.baseUrl);
     const captionText = await captionResponse.text();
 
@@ -100,14 +73,4 @@ function downloadFile(content, filename, type) {
   a.download = filename;
   a.click();
   URL.revokeObjectURL(url);
-}
-
-function convertToSRT(text) {
-  return text.split('\n')
-    .map((line, i) => {
-      const num = i + 1;
-      const time = `00:${String(Math.floor(i/6)).padStart(2,'0')}:${String((i*10)%60).padStart(2,'0')},000`;
-      return `${num}\n${time} --> ${time}\n${line}\n\n`;
-    })
-    .join('');
 }
