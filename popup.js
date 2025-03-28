@@ -1,3 +1,8 @@
+/**
+ * JTube - YouTube Transcript Extension
+ * Main popup script that handles transcript fetching and UI interactions
+ */
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Popup JS loaded ✅");
   
@@ -36,11 +41,28 @@ document.addEventListener("DOMContentLoaded", () => {
     button.textContent = "Get Transcript";
   });
 
+  /**
+   * Extracts YouTube video ID from various URL formats
+   * @param {string} url - YouTube video URL
+   * @returns {string|null} - Video ID or null if invalid URL
+   */
   function getVideoId(url) {
     const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
     return match ? match[1] : null;
   }
 
+  /**
+   * Fetches and parses transcript for a YouTube video
+   * @param {string} videoId - YouTube video ID
+   * @returns {Promise<string|null>} - Transcript text or null if not found
+   * 
+   * Process:
+   * 1. Fetches video page HTML
+   * 2. Extracts player response data
+   * 3. Finds available caption tracks
+   * 4. Prioritizes English captions
+   * 5. Parses XML caption data
+   */
   async function fetchTranscript(videoId) {
     try {
       const response = await fetch(`https://www.youtube.com/watch?v=${videoId}`);
