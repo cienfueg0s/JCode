@@ -1,7 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YouTube Transcript</title>
   <style>
     body {
@@ -43,6 +45,11 @@
 
     button:hover {
       background-color: #4338ca;
+    }
+
+    button:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
     }
 
     .secondary-button {
@@ -89,7 +96,6 @@
       <button id="copyButton" class="secondary-button">Copy Text</button>
     </div>
   </div>
-
   <script src="popup.js"></script>
 </body>
 </html>
