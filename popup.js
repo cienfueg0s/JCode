@@ -5,23 +5,30 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Set initial theme based on system preference
   // Create toggle elements
-  themeToggle.innerHTML = '<div class="toggle-thumb"><i class="fas fa-sun"></i></div>';
+  themeToggle.innerHTML = `
+    <div class="toggle-thumb"><i class="fas fa-sun-bright"></i></div>
+    <div class="toggle-icon-track"><i class="fas fa-moon-stars"></i></div>
+  `;
   
   if (prefersDark) {
     document.body.setAttribute('data-theme', 'dark');
-    themeToggle.querySelector('.toggle-thumb i').className = 'fas fa-moon';
+    themeToggle.querySelector('.toggle-thumb i').className = 'fas fa-moon-stars';
+    themeToggle.querySelector('.toggle-icon-track i').className = 'fas fa-sun-bright';
   }
 
   themeToggle.addEventListener('click', () => {
     const currentTheme = document.body.getAttribute('data-theme');
     const thumbIcon = themeToggle.querySelector('.toggle-thumb i');
+    const trackIcon = themeToggle.querySelector('.toggle-icon-track i');
     
     if (currentTheme === 'dark') {
       document.body.removeAttribute('data-theme');
-      thumbIcon.className = 'fas fa-sun';
+      thumbIcon.className = 'fas fa-sun-bright';
+      trackIcon.className = 'fas fa-moon-stars';
     } else {
       document.body.setAttribute('data-theme', 'dark');
-      thumbIcon.className = 'fas fa-moon';
+      thumbIcon.className = 'fas fa-moon-stars';
+      trackIcon.className = 'fas fa-sun-bright';
     }
   });
   const transcriptOutput = document.getElementById('transcriptOutput');
