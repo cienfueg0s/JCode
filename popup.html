@@ -63,6 +63,44 @@
       background-color: #4b5563;
     }
 
+    .controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    #languageSelect {
+      flex: 1;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+    }
+
+    #darkModeToggle {
+      width: auto;
+      padding: 8px 12px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    #searchInput {
+      margin-top: 10px;
+    }
+
+    .dark-mode {
+      background-color: #1f2937;
+      color: #f9fafb;
+    }
+
+    .dark-mode pre {
+      background-color: #374151;
+      border-color: #4b5563;
+      color: #f9fafb;
+    }
+
     .transcript-stats {
       display: flex;
       justify-content: space-between;
@@ -88,12 +126,26 @@
 <body>
   <h2>YouTube Transcript</h2>
   <input type="text" id="videoUrl" placeholder="Paste YouTube URL here" />
+  <div class="controls">
+    <select id="languageSelect">
+      <option value="auto">Auto-detect</option>
+      <option value="en">English</option>
+      <option value="es">Spanish</option>
+      <option value="fr">French</option>
+    </select>
+    <button id="darkModeToggle">🌙</button>
+  </div>
   <button id="getTranscript">Get Transcript</button>
+  <input type="text" id="searchInput" placeholder="Search transcript..." />
   <div class="transcript-container">
     <pre id="transcriptOutput">Transcript will appear here...</pre>
     <div class="transcript-stats">
       <span id="wordCount">Words: 0</span>
-      <button id="copyButton" class="secondary-button">Copy Text</button>
+      <div class="button-group">
+        <button id="copyButton" class="secondary-button">Copy</button>
+        <button id="exportTxt" class="secondary-button">Export TXT</button>
+        <button id="exportSrt" class="secondary-button">Export SRT</button>
+      </div>
     </div>
   </div>
   <script src="popup.js"></script>

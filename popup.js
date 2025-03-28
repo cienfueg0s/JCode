@@ -6,6 +6,40 @@
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Popup JS loaded ✅");
   
+  // Dark mode toggle
+  const darkModeToggle = document.getElementById("darkModeToggle");
+  darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+    darkModeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
+  });
+
+  // Search functionality
+  const searchInput = document.getElementById("searchInput");
+  searchInput.addEventListener("input", () => {
+    const searchText = searchInput.value.toLowerCase();
+    const transcript = document.getElementById("transcriptOutput");
+    const text = transcript.textContent;
+    if (searchText) {
+      const highlighted = text.replace(new RegExp(searchText, "gi"), 
+        match => `<mark>${match}</mark>`);
+      transcript.innerHTML = highlighted;
+    } else {
+      transcript.innerHTML = text;
+    }
+  });
+
+  // Export functionality
+  document.getElementById("exportTxt").addEventListener("click", () => {
+    const text = document.getElementById("transcriptOutput").textContent;
+    downloadFile(text, "transcript.txt", "text/plain");
+  });
+
+  document.getElementById("exportSrt").addEventListener("click", () => {
+    const text = document.getElementById("transcriptOutput").textContent;
+    const srtContent = convertToSRT(text);
+    downloadFile(srtContent, "transcript.srt", "text/plain");
+  });
+  
   document.getElementById("copyButton").addEventListener("click", async () => {
     const text = document.getElementById("transcriptOutput").textContent;
     await navigator.clipboard.writeText(text);
@@ -100,5 +134,24 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Transcript fetch failed:", error);
       return null;
     }
+  }
+
+  function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function convertToSRT(text) {
+    const lines = text.split("\n");
+    return lines.map((line, i) => {
+      const num = i + 1;
+      const time = `00:${String(Math.floor(i/6)).padStart(2, '0')}:${String((i*10)%60).padStart(2, '0')},000`;
+      return `${num}\n${time} --> ${time}\n${line}\n\n`;
+    }).join("");
   }
 });
