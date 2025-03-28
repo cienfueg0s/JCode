@@ -16,8 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2000);
   });
 
-  document.getElementById("getTranscript").addEventListener("click", async () => {
+  const transcriptButton = document.getElementById("getTranscript");
+  transcriptButton.addEventListener("click", async () => {
     console.log("Button clicked!");
+    transcriptButton.disabled = true;
+    transcriptButton.textContent = "Loading...";
 
     const url = document.getElementById("videoUrl").value;
     const videoId = getVideoId(url);
@@ -37,8 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("wordCount").textContent = `Words: ${wordCount}`;
     }
     
-    button.disabled = false;
-    button.textContent = "Get Transcript";
+    transcriptButton.disabled = false;
+    transcriptButton.textContent = "Get Transcript";
   });
 
   /**
